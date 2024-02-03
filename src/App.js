@@ -1,5 +1,6 @@
 // import { useState } from "react";
 import { Input } from "./forms/search";
+import { CheckBox } from "./forms/caseCocher.jsx";
 
 // const PRODUCTS = [
 //   { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -23,7 +24,11 @@ function SearchBar() {
     <>
       <div>
         <Input value="" onChange={() => null} placeholder="Rechercher...." />
-        <
+        <CheckBox
+          onChange={() => null}
+          checked={false}
+          label="n'afficher que les produits en stock"
+        />
       </div>
     </>
   );
