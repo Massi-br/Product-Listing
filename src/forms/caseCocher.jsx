@@ -1,12 +1,13 @@
-export function CheckBox({onChange, checked ,label}) {
+export function CheckBox({onChange, checked ,label ,id}) {
 
     return <div>
         <input type="checkbox"
+         id={id}
          label={label} 
          className="boxChecking "
          checked={checked} 
-         onChange={(e) => onChange(e.target.checked)} />
-         <label className="labelBox">{label} </label>
+         onChange={() => onChange(!checked)} />
+         <label htmlFor={id} className="labelBox">{label} </label>
     </div>
     
 }
