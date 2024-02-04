@@ -1,10 +1,11 @@
-export function Input ({value,onChange,placeholder}) {
+export function Input({placeholder, value , onChange}) {
+
     return<div>
-        <input type="text"
-         className="searchForm" 
-         value={value}
-         placeholder={placeholder} 
-         onChange={e => onChange(e.target.value)} 
-         />
+        <input type="text" 
+        className="searchInput" 
+        placeholder={placeholder} 
+        value={value} 
+        onChange={e =>onChange(e.target.value)}
+        />
     </div>
 }

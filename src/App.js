@@ -1,9 +1,8 @@
-// import { useState } from "react";
+import React, { useState } from "react";
 import { Input } from "./forms/search";
-import { CheckBox } from "./forms/caseCocher.jsx";
-import { CategoryRow } from "./produits/productCategory.jsx";
-import { ProduitRow } from "./produits/product.jsx";
-import { useState } from "react";
+import { CheckBox } from "./forms/checkBox";
+import { Category } from "./products/productCat";
+import { Produit } from "./products/productRow";
 
 const PRODUCTS = [
   { category: "Fruits", price: "$1", stocked: true, name: "Apple" },
@@ -15,32 +14,33 @@ const PRODUCTS = [
 ];
 
 function App() {
-  const [isChecked, setisChecked] = useState(false);
   const [search, setSearch] = useState("");
+  const [checked, setChecked] = useState(false);
 
-  const visibleProducts = PRODUCTS.filter((produit) => {
-    if (isChecked && !produit.stocked) {
+  const inStockProducts = PRODUCTS.filter((prod) => {
+    if (checked && !prod.stocked) {
       return false;
     }
-    if (search && !produit.name.includes(search)) {
+    if (search && !prod.name.includes(search)) {
       return false;
     }
     return true;
   });
+
   return (
     <>
       <SearchBar
+        checked={checked}
+        onsetChecked={setChecked}
         search={search}
         onsetSearch={setSearch}
-        showStockedOnly={isChecked}
-        onStockedOnly={setisChecked}
       />
-      <ProductTable products={visibleProducts} />
+      <ProductTable produits={inStockProducts} />
     </>
   );
 }
 
-function SearchBar({ search, onsetSearch, showStockedOnly, onStockedOnly }) {
+function SearchBar({ search, onsetSearch, checked, onsetChecked }) {
   return (
     <>
       <div>
@@ -51,36 +51,39 @@ function SearchBar({ search, onsetSearch, showStockedOnly, onStockedOnly }) {
         />
         <CheckBox
           id="stocked"
-          onChange={onStockedOnly}
-          checked={showStockedOnly}
-          label="n'afficher que les produits en stock"
+          checked={checked}
+          onChange={onsetChecked}
+          label="n'afficher que les produits en stock."
         />
       </div>
     </>
   );
 }
 
-function ProductTable({ products }) {
+function ProductTable({ produits }) {
   const rows = [];
-  let lastCategory = null;
-  for (let prod of products) {
-    if (prod.category !== lastCategory) {
-      rows.push(<CategoryRow name={prod.category} key={prod.category} />);
+  let lastCategorie = null;
+
+  for (let prod of produits) {
+    if (prod.category !== lastCategorie) {
+      rows.push(<Category name={prod.category} key={prod.category} />);
     }
-    lastCategory = prod.category;
-    rows.push(<ProduitRow product={prod} key={prod.name} />);
+    lastCategorie = prod.category;
+    rows.push(<Produit produit={prod} key={prod.name} />);
   }
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>Price</th>
-        </tr>
-      </thead>
-      <tbody>{rows}</tbody>
-    </table>
+    <>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Price</th>
+          </tr>
+        </thead>
+        <tbody>{rows}</tbody>
+      </table>
+    </>
   );
 }
 
